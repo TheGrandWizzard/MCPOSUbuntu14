@@ -1,0 +1,10 @@
+cd /lib/modules/2.6.32-28-generic/kernel/drivers/char/
+rmmod lp
+cd /lib/modules/2.6.32-28-generic/kernel/drivers/parport/
+rmmod parport_pc
+insmod parport_pc.ko io=0xec00
+insmod parport_pc.ko io=0xe880
+insmod parport_pc.ko io=0xe800
+cd /lib/modules/2.6.32-28-generic/kernel/drivers/char/
+insmod lp.ko
+

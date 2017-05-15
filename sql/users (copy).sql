@@ -1,0 +1,4 @@
+GRANT ALL PRIVILEGES ON *.* TO PenguinPOS@`%` IDENTIFIED BY 'penpos';
+GRANT ALL PRIVILEGES ON *.* TO PenguinPOS@`localhost` IDENTIFIED BY 'penpos';
+GRANT ALL PRIVILEGES ON *.* TO root@`%` IDENTIFIED BY 'penpos';
+GRANT ALL PRIVILEGES ON *.* TO root@`localhost` IDENTIFIED BY 'penpos';

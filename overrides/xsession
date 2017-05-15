@@ -1,0 +1,10 @@
+xrandr -s 1024x768
+x11vnc -forever & -shared
+while true
+do
+	setterm -blank 0 -powersave off -powerdown 0
+	xset s off
+	xset -dpms
+	cd /home/pos/PenguinPOS-FMCG
+	mono --debug PenguinPOS-FMCG.exe
+done

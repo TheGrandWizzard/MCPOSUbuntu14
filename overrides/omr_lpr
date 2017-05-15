@@ -1,0 +1,183 @@
+#!/bin/bash
+
+# Usage
+#  $1 = Printer Name
+#  $2 = Header File
+#  $3 = Orders File
+#  $4 = Optional "Closeness Pramater" for BX
+# SELECT Printer Command
+
+SPOOL_K1=/tmp/spool.k1
+SPOOL_K2=/tmp/spool.k2
+SPOOL_K3=/tmp/spool.k3
+SPOOL_K4=/tmp/spool.k4
+SPOOL_K5=/tmp/spool.k5
+SPOOL_B1=/tmp/spool.b1
+SPOOL_B2=/tmp/spool.b2
+SPOOL_B3=/tmp/spool.b3
+
+function DoK1()
+{
+	if [ ! -f ${SPOOL_K1} ]
+	then
+		echo -e "\n\n\n\n\033\041\040KITCHEN(1)ORDERS" > ${SPOOL_K1}
+		cat  "${1}" >> ${SPOOL_K1}
+	fi
+
+	cat "${2}" >> ${SPOOL_K1}
+}
+
+
+function DoK2()
+{
+	if [ ! -f ${SPOOL_K2} ]
+	then
+		echo -e "\n\n\n\n\033\041\040KITCHEN(2)ORDERS" > ${SPOOL_K2}
+		cat  "${1}" >> ${SPOOL_K2}
+	fi
+
+	cat "${2}" >> ${SPOOL_K2}
+}
+
+function DoK3()
+{
+	if [ ! -f ${SPOOL_K3} ]
+	then
+		echo -e "\n\n\n\n\033\041\040KITCHEN(3)ORDERS" > ${SPOOL_K3}
+		cat  "${1}" >> ${SPOOL_K3}
+	fi
+
+	cat "${2}" >> ${SPOOL_K3}
+}
+
+function DoK4()
+{
+	if [ ! -f ${SPOOL_K4} ]
+	then
+		echo -e "\n\n\n\n\033\041\040KITCHEN(4)ORDERS" > ${SPOOL_K4}
+		cat  "${1}" >> ${SPOOL_K4}
+	fi
+
+	cat "${2}" >> ${SPOOL_K4}
+}
+
+function DoK5()
+{
+	if [ ! -f ${SPOOL_K5} ]
+	then
+		echo -e "\n\n\n\n\033\041\040KITCHEN(5)ORDERS" > ${SPOOL_K5}
+		cat  "${1}" >> ${SPOOL_K5}
+	fi
+
+	cat "${2}" >> ${SPOOL_K5}
+}
+
+function DoB1()
+{
+	if [ ! -f ${SPOOL_B1} ]
+	then
+		echo -e "\n\n\n\n\033\041\040BAR(1)ORDERS" > ${SPOOL_B1}
+		cat  "${1}" >> ${SPOOL_B1}
+	fi
+
+	cat "${2}" >> ${SPOOL_B1}
+}
+
+function DoB2()
+{
+	if [ ! -f ${SPOOL_B2} ]
+	then
+		echo -e "\n\n\n\n\033\041\040BAR(2)ORDERS" > ${SPOOL_B2}
+		cat  "${1}" >> ${SPOOL_B2}
+	fi
+
+	cat "${2}" >> ${SPOOL_B2}
+}
+
+function DoB3()
+{
+	if [ ! -f ${SPOOL_B3} ]
+	then
+		echo -e "\n\n\n\n\033\041\040BAR(3)ORDERS" > ${SPOOL_B3}
+		cat  "${1}" >> ${SPOOL_B3}
+	fi
+
+	cat "${2}" >> ${SPOOL_B3}
+}
+
+function DoPrinter()
+{
+	if [ -f ${2} ]
+	then
+		cat "${3}" >> ${2}
+		lpr -P $1 -r $2 
+	fi
+}
+
+echo "Arguments: $1 $2 $3 $4";
+
+if [ -n "$3" ]
+then
+	echo "Orders to print (${3}):";
+	cat "${3}";
+fi
+
+case "${1}" in
+	B1K1)
+		DoB1 "${2}" "${3}" 
+		DoK1 "${2}" "${3}" 
+	;;
+	B1)
+		DoB1 "${2}" "${3}" 
+	;;
+	B2)
+		DoB2 "${2}" "${3}" 
+	;;
+	B3)
+		DoB3 "${2}" "${3}" 
+	;;
+	K1)
+		DoK1 "${2}" "${3}"
+	;;
+	K2)
+		DoK2 "${2}" "${3}"
+	;;
+	K4)
+		DoK4 "${2}" "${3}"
+	;;
+	K5)
+		DoK5 "${2}" "${3}"
+	;;
+	K1K2)
+		DoK1 "${2}" "${3}"
+		DoK2 "${2}" "${3}"
+	;;
+	K1K3)
+		DoK1 "${2}" "${3}"
+		DoK3 "${2}" "${3}"
+	;;
+	K2K3)
+		DoK2 "${2}" "${3}"
+		DoK3 "${2}" "${3}"
+	;;
+	B1B2)
+		DoB1 "${2}" "${3}"
+		DoB2 "${2}" "${3}"
+	;;
+	K1K2K3)
+		DoK1 "${2}" "${3}"
+		DoK2 "${2}" "${3}"
+		DoK3 "${2}" "${3}"
+	;;
+	PrintAll)
+		DoPrinter "K1" "${SPOOL_K1}" "$2"
+		DoPrinter "K2" "${SPOOL_K2}" "$2"
+		DoPrinter "K3" "${SPOOL_K3}" "$2"
+		DoPrinter "K4" "${SPOOL_K4}" "$2"
+		DoPrinter "K5" "${SPOOL_K5}" "$2"
+		DoPrinter "B1" "${SPOOL_B1}" "$2"
+		DoPrinter "B2" "${SPOOL_B2}" "$2"
+		DoPrinter "B3" "${SPOOL_B3}" "$2"
+	;;
+esac
+
